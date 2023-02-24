@@ -16,15 +16,9 @@ const numberOfArguments = process.argv.length - 2;
   if (numberOfArguments === INTERACTIVE_MODE) {
     interactiveMode();
   } else if (numberOfArguments === NON_INTERACTIVE_MODE) {
-    nonInteractiveMode();
+    console.log("NON_INTERACTIVE_MODE");
   }
 })();
-
-function nonInteractiveMode() {
-  //The program reads a file in which there are three numbers separated by a space.
-  //If the file does not match the format, you need to display an error.
-  //If everything is in order, solve the quadratic equation
-}
 
 async function interactiveMode() {
   const a = await getCoefficient("a");
