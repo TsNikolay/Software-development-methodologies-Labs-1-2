@@ -16,9 +16,21 @@ const numberOfArguments = process.argv.length - 2;
   if (numberOfArguments === INTERACTIVE_MODE) {
     interactiveMode();
   } else if (numberOfArguments === NON_INTERACTIVE_MODE) {
-    console.log("NON_INTERACTIVE_MODE");
+    nonInteractiveMode();
   }
 })();
+
+function nonInteractiveMode() {
+  const filePath = path.resolve(process.argv[2]);
+
+  try {
+    fileHandler(filePath);
+    readlineInterface.close();
+  } catch (error) {
+    console.log(`file ${filePath} does not exist`);
+    readlineInterface.close();
+  }
+}
 
 async function interactiveMode() {
   const a = await getCoefficient("a");
@@ -26,6 +38,28 @@ async function interactiveMode() {
   const c = await getCoefficient("c");
   solveQuadraticEquation(a, b, c);
   readlineInterface.close();
+}
+
+function solveQuadraticEquation(a, b, c) {
+  const equationInfo = `Equation is: (${a}) x^2 + (${b}) x + (${c}) = 0`;
+  const discriminant = b * b - 4 * a * c;
+  let solutionInfo;
+  let x1;
+  let x2;
+
+  if (discriminant < 0) {
+    solutionInfo = "There are 0 roots";
+  } else if (discriminant === 0) {
+    x1 = -b / (2 * a);
+    solutionInfo = `There are 1 root\nx1 = ${x1}`;
+  } else {
+    x1 = (-b + Math.sqrt(discriminant)) / (2 * a);
+    x2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+    solutionInfo = `There are 2 roots\nx1 = ${x1}, x2 = ${x2}`;
+  }
+
+  console.log(equationInfo);
+  console.log(solutionInfo);
 }
 
 function getCoefficient(coefficient) {
@@ -49,24 +83,27 @@ function getCoefficient(coefficient) {
   });
 }
 
-function solveQuadraticEquation(a, b, c) {
-  const equationInfo = `Equation is: (${a}) x^2 + (${b}) x + (${c}) = 0`;
-  const discriminant = b * b - 4 * a * c;
-  let solutionInfo;
-  let x1;
-  let x2;
+function fileHandler(file) {
+  const data = fs.readFileSync(file, "utf8");
+  const dataArray = data.split("\n");
+  const coeffsInArray = dataArray[0].split(" ").map(parseFloat);
+  const [a, b, c] = coeffsInArray;
 
-  if (discriminant < 0) {
-    solutionInfo = "There are 0 roots";
-  } else if (discriminant === 0) {
-    x1 = -b / (2 * a);
-    solutionInfo = `There are 1 root\nx1 = ${x1}`;
-  } else {
-    x1 = (-b + Math.sqrt(discriminant)) / (2 * a);
-    x2 = (-b - Math.sqrt(discriminant)) / (2 * a);
-    solutionInfo = `There are 2 roots\nx1 = ${x1}, x2 = ${x2}`;
+  if (coeffsInArray.length != 3) {
+    console.log("Invalid file format");
+    return;
+  } else if (a === 0) {
+    console.log(`Error. "a" cannot be 0`);
+    return;
   }
 
-  console.log(equationInfo);
-  console.log(solutionInfo);
+  for (let coefficient of coeffsInArray) {
+    let currentCoefficient = Number(coefficient);
+    if (isNaN(currentCoefficient)) {
+      console.log("Invalid data format");
+      return;
+    }
+  }
+
+  solveQuadraticEquation(a, b, c);
 }

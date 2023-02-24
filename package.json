@@ -1,0 +1,15 @@
+{
+  "name": "lab1",
+  "version": "1.0.0",
+  "description": "Lab1 Tsaryk",
+  "main": "lab1.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodeJs",
+    "lab1"
+  ],
+  "author": "Tsaryk Mykola <tsaryk2004@gmail.com>",
+  "license": "ISC"
+}
