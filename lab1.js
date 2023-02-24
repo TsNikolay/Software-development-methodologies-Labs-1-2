@@ -1,5 +1,6 @@
 const readline = require("readline");
 const path = require("path");
+const fs = require("fs");
 
 const readlineInterface = readline.createInterface({
   input: process.stdin,
@@ -13,11 +14,40 @@ const numberOfArguments = process.argv.length - 2;
 
 (function () {
   if (numberOfArguments === INTERACTIVE_MODE) {
-    console.log("INTERACTIVE_MODE");
+    interactiveMode();
   } else if (numberOfArguments === NON_INTERACTIVE_MODE) {
     console.log("NON_INTERACTIVE_MODE");
   }
 })();
+
+async function interactiveMode() {
+  const a = await getCoefficient("a");
+  const b = await getCoefficient("b");
+  const c = await getCoefficient("c");
+  solveQuadraticEquation(a, b, c);
+  readlineInterface.close();
+}
+
+function getCoefficient(coefficient) {
+  return new Promise((resolve, reject) => {
+    readlineInterface.question(`${coefficient}:`, (answer) => {
+      const number = Number(answer);
+      let errorMessage;
+
+      if (isNaN(number)) {
+        errorMessage = `Error. Expected a valid real number, got ${answer} instead`;
+        console.log(errorMessage);
+        resolve(getCoefficient(coefficient));
+      } else if (number === 0 && coefficient === "a") {
+        errorMessage = `Error. "a" cannot be 0`;
+        console.log(errorMessage);
+        resolve(getCoefficient(coefficient));
+      } else {
+        resolve(number);
+      }
+    });
+  });
+}
 
 function solveQuadraticEquation(a, b, c) {
   const equationInfo = `Equation is: (${a}) x^2 + (${b}) x + (${c}) = 0`;
