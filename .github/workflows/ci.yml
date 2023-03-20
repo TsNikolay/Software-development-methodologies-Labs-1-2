@@ -17,4 +17,4 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Run tests
-        run: node listTests.js
+        run: node lab2/listTests.js
