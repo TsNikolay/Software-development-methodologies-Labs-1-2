@@ -1,0 +1,19 @@
+{
+  "name": "software-development-methodologies-labs",
+  "version": "1.0.0",
+  "description": "Software-Development-Methodologies-Labs",
+  "main": "list.js",
+  "scripts": {
+    "test": "node listTests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TsNikolay/Software-development-methodologies-Labs.git"
+  },
+  "author": "Mykola Tsaryk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TsNikolay/Software-development-methodologies-Labs/issues"
+  },
+  "homepage": "https://github.com/TsNikolay/Software-development-methodologies-Labs#readme"
+}
