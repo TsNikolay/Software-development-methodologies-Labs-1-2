@@ -1,4 +1,4 @@
-class arrayBasedList {
+class List {
   constructor() {
     this.elementsArray = [];
   }
@@ -45,7 +45,7 @@ class arrayBasedList {
   }
 
   clone() {
-    const additionalList = new arrayBasedList();
+    const additionalList = new List();
     this.elementsArray.forEach((e) => additionalList.append(e));
     return additionalList;
   }
@@ -72,4 +72,4 @@ class arrayBasedList {
   }
 }
 
-module.exports = { arrayBasedList };
+module.exports = { List };

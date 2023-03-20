@@ -1,77 +1,219 @@
 const assert = require("assert").strict;
-const { arrayBasedList } = require("./list.js");
+const { List } = require("./list.js");
 
-const myList = new arrayBasedList();
+const myList = new List();
 
-//Append method test
-myList.append("10");
-myList.append("20");
-myList.append("30"); //["10","20","30"]
-assert.strictEqual(myList.length(), 3);
+{
+  //Clear method test
+  const myList = new List();
+  myList.append("Mykola");
+  myList.append("Olena");
+  myList.clear();
+  assert.strictEqual(myList.length(), 0);
+}
 
-//Insert method test
-myList.insert("25", 2); //["10","20","25","30"]
-assert.strictEqual(myList.length(), 4);
-assert.strictEqual(myList.get(2), "25");
+{
+  //Append method test
+  myList.clear();
+  try {
+    myList.append(100);
+    assert.fail("An error was expected");
+  } catch (error) {
+    assert.strictEqual(error.message, "Invalid element type. Please use Character(string)");
+  }
+  myList.append("Mykola");
+  myList.append("Olena");
+  myList.append("Igor"); //["Mykola","Olena","Igor"]
+  assert.strictEqual(myList.length(), 3);
+  assert.strictEqual(myList.get(0), "Mykola");
+  assert.strictEqual(myList.get(1), "Olena");
+  assert.strictEqual(myList.get(2), "Igor");
+}
 
-//Delete method test
-myList.delete("3"); //["10","20","25"]
-assert.strictEqual(myList.length(), 3);
-assert.strictEqual(myList.get(0), "10");
-assert.strictEqual(myList.get(1), "20");
-assert.strictEqual(myList.get(2), "25");
-assert.strictEqual(myList.get(3), undefined);
+{
+  //Insert method test
+  myList.clear();
+  try {
+    myList.insert(100, 0);
+    assert.fail("An error was expected");
+  } catch (error) {
+    assert.strictEqual(error.message, "Invalid element type. Please use Character(string)");
+  }
+  try {
+    myList.insert("Mykola", -1);
+    assert.fail("An error was expected");
+  } catch (error) {
+    assert.strictEqual(
+      error.message,
+      "Invalid index. Value less than zero or more than array length"
+    );
+  }
+  try {
+    myList.insert("e", 10);
+    assert.fail("An error was expected");
+  } catch (error) {
+    assert.strictEqual(
+      error.message,
+      "Invalid index. Value less than zero or more than array length"
+    );
+  }
+  myList.insert("Mykola", 0);
+  myList.insert("Olena", 1); // ["Mykola", "Olena"]
+  myList.insert("Igor", 1); // ["Mykola", "Igor", "Olena"]
+  assert.strictEqual(myList.length(), 3);
+  assert.strictEqual(myList.get(0), "Mykola");
+  assert.strictEqual(myList.get(1), "Igor");
+  assert.strictEqual(myList.get(2), "Olena");
+}
 
-//DeleteAll method test
-myList.insert("50", 2);
-myList.insert("50", 3); //["10","20","50","50","25"]
-assert.strictEqual(myList.get(2), "50");
-assert.strictEqual(myList.get(3), "50");
-myList.deleteAll("50"); // ["10","20","25"]
-assert.strictEqual(myList.length(), 3);
-assert.strictEqual(myList.get(2), "25");
-assert.strictEqual(myList.get(3), undefined);
+{
+  //Delete method test
+  myList.clear();
+  try {
+    myList.delete(-3);
+    assert.fail("An error was expected");
+  } catch (error) {
+    assert.strictEqual(
+      error.message,
+      "Invalid index. Value less than zero or more than array length"
+    );
+  }
+  try {
+    myList.delete(7);
+    assert.fail("An error was expected");
+  } catch (error) {
+    assert.strictEqual(
+      error.message,
+      "Invalid index. Value less than zero or more than array length"
+    );
+  }
 
-//Get method test
-assert.strictEqual(myList.get(0), "10");
-assert.strictEqual(myList.get(1), "20");
-assert.strictEqual(myList.get(2), "25");
+  myList.append("Mykola");
+  myList.append("Olena");
+  myList.append("Igor");
+  myList.append("Oleksandr"); //["Mykola","Olena","Igor","Oleksandr"]
+  myList.delete(1); //["Mykola","Igor","Oleksandr"]
+  myList.delete(0); //["Igor","Oleksandr"]
+  assert.strictEqual(myList.length(), 2);
+  assert.strictEqual(myList.get(0), "Igor");
+  assert.strictEqual(myList.get(1), "Oleksandr");
+  myList.delete(0); //["Oleksandr"]
+  myList.delete(0); //[]
+  assert.strictEqual(myList.length(), 0);
+}
 
-//Clone method test
-const clonedList = myList.clone(); //["10","20","25"]
-assert.strictEqual(clonedList.length(), 3);
-assert.deepStrictEqual(clonedList.elementsArray, ["10", "20", "25"]);
-clonedList.delete(1); // ["10","25"]
-assert.strictEqual(myList.length(), 3);
-assert.strictEqual(clonedList.length(), 2);
+{
+  //DeleteAll method test
+  myList.clear();
+  try {
+    myList.deleteAll(1);
+    assert.fail("An error was expected");
+  } catch (error) {
+    assert.strictEqual(error.message, "Invalid element type. Please use Character(string)");
+  }
+  myList.insert("Mykola", 0);
+  myList.insert("Igor", 1);
+  myList.insert("Mykola", 2);
+  myList.insert("Igor", 3);
+  myList.insert("Oleksandr", 4);
+  myList.insert("Mykola", 5);
+  assert.strictEqual(myList.length(), 6);
+  assert.strictEqual(myList.get(0), "Mykola");
+  assert.strictEqual(myList.get(2), "Mykola");
+  assert.strictEqual(myList.get(5), "Mykola");
+  myList.deleteAll("Mykola"); //["Igor","Igor","Oleksandr"]
+  assert.strictEqual(myList.length(), 3);
+  assert.strictEqual(myList.get(0), "Igor");
+  assert.strictEqual(myList.get(1), "Igor");
+  myList.deleteAll("Igor"); //["Oleksandr"]
+  assert.strictEqual(myList.length(), 1);
+  assert.strictEqual(myList.get(0), "Oleksandr");
+}
 
-//Reverse method test
-myList.insert("30", 3); //["10","20","25","30"]
-myList.reverse(); //["30","25","20","10"]
-assert.strictEqual(myList.length(), 4);
-assert.deepStrictEqual(myList.elementsArray, ["30", "25", "20", "10"]);
+{
+  //Get method test
+  myList.clear();
+  try {
+    myList.get(-3);
+    assert.fail("An error was expected");
+  } catch (error) {
+    assert.strictEqual(
+      error.message,
+      "Invalid index. Value less than zero or more than array length"
+    );
+  }
+  try {
+    myList.get(5);
+    assert.fail("An error was expected");
+  } catch (error) {
+    assert.strictEqual(
+      error.message,
+      "Invalid index. Value less than zero or more than array length"
+    );
+  }
+  myList.append("Mykola");
+  myList.append("Olena");
+  assert.strictEqual(myList.get(0), "Mykola");
+  assert.strictEqual(myList.get(1), "Olena");
+}
 
-//FindFirst method test
-myList.append("25"); //["30","25","20","10","25"]
-assert.strictEqual(myList.findFirst("25"), 1);
+{
+  //Clone method test
+  myList.clear();
+  myList.append("Mykola");
+  myList.append("Olena"); // ["Mykola", "Olena"]
+  const clonedList = myList.clone();
+  assert.strictEqual(clonedList.length(), 2);
+  assert.deepStrictEqual(clonedList.elementsArray, ["Mykola", "Olena"]);
+  clonedList.delete(1); // ["Mykola"}
+  assert.strictEqual(myList.length(), 2);
+  assert.strictEqual(clonedList.length(), 1);
+}
 
-//FindLast method test
-myList.append("15"); //["30","25","20","10","25","15"]
-assert.strictEqual(myList.findLast("25"), 4);
+{
+  //Reverse method test
+  myList.clear();
+  myList.insert("Mykola", 0);
+  myList.insert("Igor", 1);
+  myList.insert("Olena", 2);
+  myList.reverse(); //["Olena","Igor","Mykola"]
+  assert.strictEqual(myList.length(), 3);
+  assert.deepStrictEqual(myList.elementsArray, ["Olena", "Igor", "Mykola"]);
+}
 
-//Clear method test
-myList.clear();
-assert.strictEqual(myList.length(), 0);
+{
+  //FindFirst method test
+  myList.clear();
+  myList.append("Mykola");
+  myList.append("Igor");
+  myList.append("Mykola");
+  myList.append("Olena");
+  assert.strictEqual(myList.findFirst("Mykola"), 0);
+  assert.strictEqual(myList.findFirst("Olena"), 3);
+}
 
-//Extend method test
-const mySecondList = new arrayBasedList();
-myList.append("1");
-myList.append("2");
-myList.append("3"); //["1","2","3"]
-mySecondList.append("100");
-mySecondList.append("200");
-mySecondList.append("300"); //["100","200","300"]
-const concatenatedList = myList.extend(mySecondList);
-assert.deepStrictEqual(concatenatedList, ["1", "2", "3", "100", "200", "300"]);
+{
+  //FindLast method test
+  myList.clear();
+  myList.append("Mykola");
+  myList.append("Igor");
+  myList.append("Mykola");
+  myList.append("Olena");
+  assert.strictEqual(myList.findLast("Mykola"), 2);
+  assert.strictEqual(myList.findLast("Olena"), 3);
+}
 
+{
+  //Extend method test
+  myList.clear();
+  const mySecondList = new List();
+  myList.append("Mykola");
+  myList.append("Olena");
+  myList.append("Igor"); //["Mykola","Olena","Igor"]
+  mySecondList.append("100");
+  mySecondList.append("200");
+  mySecondList.append("300"); //["100","200","300"]
+  const concatenatedList = myList.extend(mySecondList);
+  assert.deepStrictEqual(concatenatedList, ["Mykola", "Olena", "Igor", "100", "200", "300"]);
+}
 console.log("All tests passed successfully");

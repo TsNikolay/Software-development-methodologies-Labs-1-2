@@ -1,5 +1,5 @@
-const { arrayBasedList } = require("./list.js");
-const myList = new arrayBasedList();
+const { List } = require("./list.js");
+const myList = new List();
 
 console.log('Check the "length" method');
 console.log(`List length: ${myList.length()} \n`);
@@ -51,11 +51,11 @@ myList.clear();
 console.log(`List length after clearing: ${myList.length()} \n`);
 
 console.log('Checking the "extend" method, lets extend our list');
-const firstList = new arrayBasedList();
+const firstList = new List();
 firstList.append("1");
 firstList.append("2");
 console.log(`First list: ${firstList.elementsArray}`);
-const secondList = new arrayBasedList();
+const secondList = new List();
 secondList.append("3");
 secondList.append("4");
 console.log(`Second list: ${secondList.elementsArray}`);
