@@ -162,9 +162,11 @@ const myList = new List();
   myList.clear();
   myList.append("Mykola");
   myList.append("Olena"); // ["Mykola", "Olena"]
-  const clonedList = myList.clone();
+  let clonedList = myList.clone();
+
   assert.strictEqual(clonedList.length(), 2);
-  assert.deepStrictEqual(clonedList.elementsArray, ["Mykola", "Olena"]);
+  assert.strictEqual(clonedList.get(0), "Mykola");
+  assert.strictEqual(clonedList.get(1), "Olena");
   clonedList.delete(1); // ["Mykola"}
   assert.strictEqual(myList.length(), 2);
   assert.strictEqual(clonedList.length(), 1);
@@ -178,7 +180,10 @@ const myList = new List();
   myList.insert("Olena", 2);
   myList.reverse(); //["Olena","Igor","Mykola"]
   assert.strictEqual(myList.length(), 3);
-  assert.deepStrictEqual(myList.elementsArray, ["Olena", "Igor", "Mykola"]);
+
+  assert.strictEqual(myList.get(0), "Olena");
+  assert.strictEqual(myList.get(1), "Igor");
+  assert.strictEqual(myList.get(2), "Mykola");
 }
 
 {
@@ -213,7 +218,13 @@ const myList = new List();
   mySecondList.append("100");
   mySecondList.append("200");
   mySecondList.append("300"); //["100","200","300"]
-  const concatenatedList = myList.extend(mySecondList);
-  assert.deepStrictEqual(concatenatedList, ["Mykola", "Olena", "Igor", "100", "200", "300"]);
+  myList.extend(mySecondList);
+
+  assert.strictEqual(myList.get(0), "Mykola");
+  assert.strictEqual(myList.get(1), "Olena");
+  assert.strictEqual(myList.get(2), "Igor");
+  assert.strictEqual(myList.get(3), "100");
+  assert.strictEqual(myList.get(4), "200");
+  assert.strictEqual(myList.get(5), "300");
 }
 console.log("All tests passed successfully");
