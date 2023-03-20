@@ -163,7 +163,6 @@ const myList = new List();
   myList.append("Mykola");
   myList.append("Olena"); // ["Mykola", "Olena"]
   let clonedList = myList.clone();
-
   assert.strictEqual(clonedList.length(), 2);
   assert.strictEqual(clonedList.get(0), "Mykola");
   assert.strictEqual(clonedList.get(1), "Olena");
@@ -180,7 +179,6 @@ const myList = new List();
   myList.insert("Olena", 2);
   myList.reverse(); //["Olena","Igor","Mykola"]
   assert.strictEqual(myList.length(), 3);
-
   assert.strictEqual(myList.get(0), "Olena");
   assert.strictEqual(myList.get(1), "Igor");
   assert.strictEqual(myList.get(2), "Mykola");
@@ -220,6 +218,7 @@ const myList = new List();
   mySecondList.append("300"); //["100","200","300"]
   myList.extend(mySecondList);
 
+  assert.strictEqual(myList.length(), 6);
   assert.strictEqual(myList.get(0), "Mykola");
   assert.strictEqual(myList.get(1), "Olena");
   assert.strictEqual(myList.get(2), "Igor");
