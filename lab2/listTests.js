@@ -18,8 +18,8 @@ assert.strictEqual(myList.get(2), 25);
 myList.delete(3); //[10,20,25]
 assert.strictEqual(myList.length(), 3);
 assert.strictEqual(myList.get(0), 10);
-assert.strictEqual(myList.get(1), 21);
-assert.strictEqual(myList.get(2), 26);
+assert.strictEqual(myList.get(1), 20);
+assert.strictEqual(myList.get(2), 25);
 assert.strictEqual(myList.get(3), undefined);
 
 //DeleteAll method test
