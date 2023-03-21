@@ -13,19 +13,19 @@ First list implementation: list based on built-in arrays/lists
 Second implementation: singly linked circular list
 
 ## How to run
+1. Install Node.js.
+2. Clone the repository to your local machine
+3. Navigate to the project directory in your terminal or command prompt
+4. To run the demonstration of using of all methods
 
-1. Clone the repository to your local machine
-2. Navigate to the project directory in your terminal or command prompt
-3. To run the demonstration of using of all methods
-
-bash
+```bash
 $ node showListMethods.js
+````
+5. To run tests
 
-4. To run tests
-
-bash
+```bash
 $ node listTests.js
-
+```
 ## Reference to the commit, where CI tests failed
 
 [Tests failed](https://github.com/TsNikolay/Software-development-methodologies-Labs/commit/380a95e13fed62cef1596db975bffbac3879ad90)
