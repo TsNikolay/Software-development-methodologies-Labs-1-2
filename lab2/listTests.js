@@ -219,7 +219,7 @@ const myList = new List();
   myList.extend(mySecondList);
 
   assert.strictEqual(myList.length(), 6);
-  assert.strictEqual(myList.get(0), "Mikola");
+  assert.strictEqual(myList.get(0), "Mykola");
   assert.strictEqual(myList.get(1), "Olena");
   assert.strictEqual(myList.get(2), "Igor");
   assert.strictEqual(myList.get(3), "100");
