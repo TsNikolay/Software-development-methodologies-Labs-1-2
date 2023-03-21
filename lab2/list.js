@@ -181,7 +181,7 @@ class List {
   findFirst(element) {
     let currentElement = this.head;
     let index = 0;
-    while (currentElement) {
+    while (currentElement && index != this.listLength) {
       if (currentElement.value === element) {
         return index;
       }
@@ -232,7 +232,7 @@ class List {
       currentElement = currentElement.next;
     } while (currentElement !== this.head);
 
-    console.log("List:", finalArray.join(" --> "));
+    console.log("List:", "(".concat(finalArray.join(")->(").concat(")")));
   }
 }
 
